@@ -1,0 +1,57 @@
+{% extends "./base.html" %}
+
+{% block title %} {{post.title}} {% endblock %}
+
+{% block main %}
+    {% if post %}
+    <div class="row">
+
+            <h1 class="mt-4">{{post.title}}</h1>
+        <div class="col-8">
+            <a class="lead">By {{post.owner.username}}</a>
+            <a class="float-right">{{post.created_time}}</a>
+        </div>
+            <hr>
+            <img class="img-fluid rounded" src="http://placehold.it/900x300" alt="">
+            <p class="lead">{{post.content}}</p>
+<!--            <ul>-->
+<!--                <li class="card-link">-->
+<!--                    <a href="{% url 'category-list' post.category.id %}">分类：{{post.category.name}}</a>-->
+<!--                </li>-->
+<!--                <li class="card-link">-->
+<!--                    <a>作者：{{post.owner.username}}</a>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </div>-->
+    </div>
+<!--    <div class="row">-->
+<!--        <div class="post-content">-->
+<!--            <p class="post&#45;&#45;content">{{post.content}}</p>-->
+<!--        </div>-->
+<!--    </div>-->
+
+    {% endif %}
+
+<hr/>
+<div class="comment mt-4">
+    <form class="form-group" action="/comment/" method="POST">
+        {% csrf_token %}
+        <input name="target" type="hidden" value="{{request.path}}"/>
+        {{comment_form}}
+        <input class="mt-4" type="submit" value="提交">
+    </form>
+    <ul class="list-group">
+        {% for comment in comment_list %}
+            <li class="list-group-item">
+                <div class="nickname">
+                    <a href="{{comment.website}}">{{comment.nickname}}</a>
+                    <span>{{comment.created_time}}</span>
+                </div>
+                <div class="comment-content">
+                    {{comment.content}}
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

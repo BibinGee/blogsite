@@ -1,0 +1,42 @@
+{% extends "./base.html" %}
+
+{% block title %} {{post.title}} {% endblock %}
+
+{% block main %}
+{% autoescape off %}
+    {% if post %}
+        <h2 class="mt-4">{{post.title}}</h2>
+        <a class="mr-2">By {{post.owner.username}}</a>
+        <a class="mr-2">{{post.created_time}}</a>
+        <a class="mr-2 float-right">阅读量：{{post.pv}}</a>
+        <hr>
+         <a>分类：<a href="{% url 'category-list' post.category.id %}">{{post.category.name}}</a></a>
+<!--            <img class="mt-4 rounded" width="750" height="300" src="{{post.title_image.url}}" alt="标题图片">-->
+         <div class="mt-4">{{post.content}}</div>
+
+    {% endif %}
+{% endautoescape %}
+
+<hr/>
+<div class="comment mt-4">
+    <form class="form-group" action="/comment/" method="POST">
+        {% csrf_token %}
+        <input name="target" type="hidden" value="{{request.path}}"/>
+        {{comment_form}}
+        <input class="mt-4" type="submit" value="提交">
+    </form>
+    <ul class="list-group">
+        {% for comment in comment_list %}
+            <li class="list-group-item">
+                <div class="nickname">
+<!--                    <a href="{{comment.website}}">{{comment.nickname}}</a>-->
+                    <span>{{comment.created_time}}</span>
+                </div>
+                <div class="comment-content">
+                    {{comment.content}}
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,114 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mangontree">
+
+    <title>Blog - Mango On Tree</title>
+      <!-- Bootstrap core CSS -->
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+      <!-- Custom styles for this template -->
+    <link href="{% static 'css/blog-home.css' %}" rel="stylesheet">
+
+
+    <title>{% block title %} 首页 {% endblock %}</title>
+    {% block extra_head %}
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/default.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad()</script>
+
+    {% endblock %}
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="#">Mango On Tree</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item active">
+                <a class="nav-link" href="http://127.0.0.1:8000/">Home
+                  <span class="sr-only">(current)</span>
+                </a>
+              </li>
+
+                {% for cate in navs %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'category-list' cate.id %}">{{cate.name}}</a>
+              </li>
+                {% endfor %}
+
+              <li class="nav-item">
+                <a class="nav-link" href="#">Contact</a>
+              </li>
+            </ul>
+<!--              <div class="card my-4">-->
+<!--              <h5 class="card-header">Search</h5>-->
+              <div class="ml-2">
+                <form class="form-inline" action="/search/" method="GET">
+                  <input type="search" name="keyword" class="form-control-a" placeholder="Search for..." aria-label="Search" value="{{keyword}}">
+                  <span class="input-group-btn">
+                    <button class="btn btn-success ml-3" type="submit">Go!</button>
+                  </span>
+                </form>
+              </div>
+<!--            </div>-->
+          </div>
+        </div>
+    </nav>
+    <div class="container main-wrapper" >
+        <div class="row">
+
+        <!--    Post   -->
+        <div class="col-lg-8 col-md-8 col-sm-12">
+            {% block main %}
+            {% endblock %}
+        </div>
+
+        <!--    Search Form        -->
+        <div class="col-lg-4 col-md-4 col-sm">
+            <!--    Sidebar        -->
+            {% block sidebar %}
+                {% for sidebar in sidebars %}
+                    <div class="card my-4 hidden-sm">
+                        <h5 class="card-header">{{sidebar.title}}</h5>
+                        <div class="card-body bg-light">
+                            {{sidebar.content_html}}
+                        </div>
+<!--                        <h4 class="list-group-item list-group-item-info">{{sidebar.title}}</h4>-->
+
+                    </div>
+                {% endfor %}
+            {% endblock %}
+        </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        {% block footer %}
+        <div class="container">
+            <hr/>
+            <nav class="nav category">
+                {% for cate in categories %}
+                    <a href="{% url 'category-list' cate.id %}">{{cate.name}}</a>
+                {% endfor %}
+            </nav>
+        </div>
+        <div class="container power">
+            <span class="text-mute"> Copyright @ BLogsie</span>
+        </div>
+        {% endblock %}
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sidebar comments</title>
+</head>
+<body>
+<ul class="list-unstyled mb-0">
+    {% for comment in comments %}
+    <li >
+        <a class="ml-2" style="color: #ff0d93; font-size:1.0rem;" >{{comment.nickname}}</a>
+        <a class="ml-2" style="color: #ff0d93;font-size:1.0rem;">{{comment.created_time}}</a>
+        <div style="border: 1px solid #00e7ff; padding:15px;background-color:#08588dba;border-radius:0.25rem;">
+            <a style="color:#ffffff;" href="{{comment.target}}">"{{comment.content|slice:100}}..."</a>
+        </div>
+    </li>
+    <hr>
+    {% endfor %}
+</ul>
+</body>
+</html>
